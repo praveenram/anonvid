@@ -1,0 +1,5 @@
+# Anon vid ignores
+*.log
+*.pyc
+tmp
+log
