@@ -1,0 +1,10 @@
+---
+- name: Setup the server admin/sudo user
+- name: Ensure custom password / username has been set
+  assert:
+    that:
+      - "sudo_username != '<username>'"
+      - "sudo_password != '<password>'" 
+- name: Create the new sudo user
+  user: name={{ sudo_username }} password={{ sudo_password_hash }} update_password=on_create groups=sudo,adm append=yes
+

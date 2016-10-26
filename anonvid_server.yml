@@ -1,0 +1,15 @@
+---
+- name: Anonvid server - python - flask - ubuntu - mongodb
+  hosts: anonvid_server
+  roles:
+    - role: linux-user
+      sudo_username: <username> 
+      sudo_password: <password>
+    - role: ubuntu-common
+    - role: fegge.security
+      slack_webhook:
+    - role: ubuntu-monit
+    #- role: python
+    #- role: python-flash
+    #- role: mongodb-server
+ 

@@ -1,0 +1,18 @@
+# Monit config file
+
+# Poll every 120 seconds, run as daemon
+set daemon 120
+
+# configure monit to start on init
+set init
+
+# Allow monit to be accessed over HTTP
+SET HTTPD
+  PORT 2812
+  USE ADDRESS 127.0.0.1
+  SSL DISABLE
+
+
+# Include configuration files for specific tasks / processes
+# Provides flexibility for other tasks / roles to add monitoring on themselves
+include /etc/monit/conf.d/*.cfg

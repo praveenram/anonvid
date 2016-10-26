@@ -1,0 +1,15 @@
+---
+- name: Setup monitoring server
+- name: Install monit package
+  apt: name=monit state=latest
+- name: Configure Monit
+  copy: src={{ item.src }} dest={{ item.dest }} backup=true
+  with_items:
+    - { src: 'files/monitrc', dest: '/etc/monitrc' }
+    - { src: 'files/system.cfg', dest: '/etc/monit/conf.d/system.cfg' }
+    - { src: 'files/diskspace.cfg', dest: '/etc/monit/conf.d/diskspace.cfg' }
+- name: Configure monit slack script
+  template: src=slack.sh.j2 dest=/usr/local/bin/slack.sh
+- name: Make monit slack script executable
+  shell: chmod +x /usr/local/bin/slack.sh
+
