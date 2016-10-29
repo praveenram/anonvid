@@ -15,3 +15,6 @@
 [anonvid_server]
 192.168.33.10
 
+
+[anonvid_server:vars]
+ansible_password=vagrant

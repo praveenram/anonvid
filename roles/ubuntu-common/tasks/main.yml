@@ -14,10 +14,10 @@
     - openssh-server
     - openssh-blacklist
     - openssh-blacklist-extra
-    - openssh-known-hosts
     - openssl
     - unattended-upgrades
     - sockstat
+    - htop
 - name: Configure periodic security updates
   copy: src={{ item.src }} dest={{ item.dest }} backup=true
   with_items:

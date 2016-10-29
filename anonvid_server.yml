@@ -1,15 +1,12 @@
 ---
-- name: Anonvid server - python - flask - ubuntu - mongodb
+- name: Anonvid server - basic ubuntu setup - security - monit
   hosts: anonvid_server
+  become: yes
+  become_method: sudo
   roles:
-    - role: linux-user
-      sudo_username: <username> 
-      sudo_password: <password>
     - role: ubuntu-common
     - role: fegge.security
-      slack_webhook:
+      slack_webhook: 'https://hooks.slack.com/services/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'
     - role: ubuntu-monit
-    #- role: python
-    #- role: python-flash
-    #- role: mongodb-server
- 
+      slack_monit_url: 'https://hooks.slack.com/services/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'
+

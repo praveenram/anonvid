@@ -1,5 +1,6 @@
 ---
 - name: Setup monitoring server
+  debug: msg="Configuring monitoring server Monit"
 - name: Install monit package
   apt: name=monit state=latest
 - name: Configure Monit
@@ -11,5 +12,5 @@
 - name: Configure monit slack script
   template: src=slack.sh.j2 dest=/usr/local/bin/slack.sh
 - name: Make monit slack script executable
-  shell: chmod +x /usr/local/bin/slack.sh
+  file: path=/usr/local/bin/slack.sh state=touch mode="u+x"
 
