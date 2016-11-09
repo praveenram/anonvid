@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %} Join a conference {% endblock %}
+
+{% block content %}
+<div id = "container">
+	<video id="local" autoplay></video>
+	<div id="errorMsg"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="/static/getUserMedia.js"></script>
+{% endblock %}
