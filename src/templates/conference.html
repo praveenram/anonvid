@@ -3,7 +3,9 @@
 {% block content %}
 	<div class="panel panel-default chat-panel">
 		<div class="panel-heading">
-			<h2 class="panel-title">Active Conference - {{ name }}</h2>
+			<h2 class="panel-title">Active Conference - {{ name }} - {{ user }}</h2>
+			<input id="confId" type="hidden" value="{{ conf_id }}" />
+			<input id="username" type="hidden" value="{{ user }}" />
 		</div>
 		<div class="panel-body">
 			<div class="container-fluid">

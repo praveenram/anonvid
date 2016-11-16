@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    var confId = $("#confId").val();
+
     var webrtc = new SimpleWebRTC({
         // the id/element dom element that will hold "our" video
         localVideoEl: 'localVideo',
@@ -10,6 +12,6 @@ $(document).ready(function() {
 
     webrtc.on('readyToCall', function() {
         // you can name it anything
-        webrtc.joinRoom('your awesome room name');
+        webrtc.joinRoom('anonvid-' + confId);
     });
 });

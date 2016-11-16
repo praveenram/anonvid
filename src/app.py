@@ -13,9 +13,11 @@ from flask import make_response
 from flask import redirect
 
 from database import Database
+from signals import Signals
 
 app = Flask(__name__)
 db = Database()
+signals = Signals()
 
 salt = '3e48ad8d29e9b02753c62ea47f365683fd65d861e8dd257b9d0ad91c67b47e12'
 
@@ -63,9 +65,20 @@ def create_post():
 def conference():
 	c_no = request.args.get('c_no')
 	conf = db.get_conference(c_no)
+
 	if conf is None or request.cookies.get('conf_id') != generate_cookie(conf):
 		return redirect('/')
-	return render_template("conference.html", name = conf['name'])
+
+	username_cookie = request.cookies.get('username')
+
+	if username_cookie is not None and username_cookie != '':
+		user = signals.register_conference(conf['conf_id'], username_cookie)
+	else:
+		user = signals.register_conference(conf['conf_id'])
+
+	resp = make_response(render_template("conference.html", name = conf['name'], conf_id = conf['conf_id'], user = user))
+	resp.set_cookie('username', user)
+	return resp
 
 
 if __name__ == "__main__":
