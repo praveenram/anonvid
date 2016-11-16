@@ -1,1 +1,64 @@
 /* CSS For anonvid */
+html, body {
+	height: 100vh;
+	overflow-y: auto;
+}
+
+.chat-panel.panel {
+	background-color: darkgray;
+	margin: 1vh;
+}
+
+.chat-panel.panel .panel-heading {
+    height: 4vh;
+    max-height: 40px;
+}
+
+.chat-panel.panel .panel-body {
+	height: 94vh;
+}
+
+.chat-panel.panel .panel-body .container-fluid > .row.row-eq-height {
+	margin: 1vh;
+}
+
+.chat-panel.panel .panel-body .container-fluid > .row.row-eq-height > .col-lg-6 {
+	margin: 1vh;
+}
+
+.chat-panel.panel .panel-body .container-fluid > .row.row-eq-height > .col-lg-6 > section {
+	margin: 1vh;
+}
+
+.video-section {
+	border-left: 2px solid white;
+	height: 90vh;
+}
+
+.chat-window {
+	background-color: white;
+	border: 1px solid silver;
+	border-radius: 5px;
+	height: 43vh;
+}
+
+.whiteboard-section canvas {
+	background-color: white;
+	height: 43vh;
+	width: 100%;
+	border: 1px solid white;
+	border-radius: 5px;
+}
+
+/* Generic styles */
+.row-eq-height {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.margin-lr-0 {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}

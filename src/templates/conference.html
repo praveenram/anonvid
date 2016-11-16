@@ -1,10 +1,32 @@
 {% extends "layout.html" %}
-{% block title %} Conference - #{{ num }} {% endblock %}
+{% block title %} Conference - {{ name }} {% endblock %}
 {% block content %}
-	<div class="row">
-		<div class="col-lg-12">
+	<div class="panel panel-default chat-panel">
+		<div class="panel-heading">
+			<h2 class="panel-title">Active Conference - {{ name }}</h2>
+		</div>
+		<div class="panel-body">
+			<div class="container-fluid">
+				<div class="row margin-lr-0 row-eq-height">
+					<section class="col-lg-6">
+						<section class="row margin-lr-0 chat-section">
+							<div class="col-lg-12 chat-window">
+							</div>
+						</section>
+						<section class="row margin-lr-0 whiteboard-section">
+							<canvas></canvas>
+						</section>
+					</section>
+					<section class="col-lg-6 video-section">
+					</section>
+				</div>
+			</div>
 		</div>
 	</div>
 {% endblock %}
 {% block scripts %}
+	<script type="text/javascript">
+		$("nav").addClass('hidden');
+	</script>
+	<script type="text/javascript" src="/static/active_conference.js"></script>
 {% endblock %}
