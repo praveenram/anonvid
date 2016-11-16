@@ -10,6 +10,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import make_response
+from flask import redirect
 
 from database import Database
 
@@ -61,8 +62,10 @@ def create_post():
 @app.route("/conference", methods=['GET', 'POST'])
 def conference():
 	c_no = request.args.get('c_no')
-	c_p = request.args.get('c_p')
-	return render_template("conference.html", num = c_no)
+	conf = db.get_conference(c_no)
+	if conf is None or request.cookies.get('conf_id') != generate_cookie(conf):
+		return redirect('/')
+	return render_template("conference.html", name = conf['name'])
 
 
 if __name__ == "__main__":

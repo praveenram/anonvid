@@ -30,10 +30,13 @@ function Conference() {
 					password: hashPassword(password)
 				},
 				success: function (data, status) {
-					data = JSON.parse(data);
+					conf = JSON.parse(data);
 					$("form.join-conference .form-group.error").addClass('hidden');
 					$(".panel.join-conference").addClass("hidden");
 					$(".panel.joining-conference").removeClass("hidden");
+					setTimeout(function () {
+						window.location = "/conference?c_no=" + conf["conf_id"];
+					}, 2000);
 				},
 				error: function (responseText, data) {
 					$("form.join-conference .form-group.error").removeClass('hidden');

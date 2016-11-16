@@ -3,7 +3,7 @@ Anonvid Data model
 """
 
 import uuid
-import hashlib
+import hashlib, binascii
 from pymongo import MongoClient
 
 salt = '5d1fa76d7874970190707c55595d32331b113f762447fa49b226e8b471e4145f'
@@ -12,7 +12,6 @@ def generate_conf_id():
 	return str(uuid.uuid4())
 
 def generate_password_hash(password):
-	import hashlib, binascii
 	dk = hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), 100000)
 	return str(binascii.hexlify(dk))
 
@@ -33,6 +32,16 @@ class Database(object):
 			return -1
 
 		return conf_id
+
+	def get_conference(self, conf_id):
+		conferences = self._db.conferences
+
+		conf = conferences.find_one({ 'conf_id': conf_id.strip() })
+
+		if conf is not None:
+			return conf
+		else:
+			return None
 
 	def find_conference(self, conf_id, password):
 		conferences = self._db.conferences
