@@ -14,7 +14,7 @@ def generate_conf_id():
 def generate_password_hash(password):
 	import hashlib, binascii
 	dk = hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), 100000)
-	return binascii.hexlify(dk)
+	return str(binascii.hexlify(dk))
 
 class Database(object):
 	def __init__(self, mongo_host='localhost', mongo_port=27017):
@@ -34,9 +34,16 @@ class Database(object):
 
 		return conf_id
 
-	def find_conference(self, conf_id):
+	def find_conference(self, conf_id, password):
 		conferences = self._db.conferences
-		conf = conferences.find_one({ 'conf_id': conf_id.strip() })
+		password_hash = generate_password_hash(password)
+
+		print(conf_id)
+		print(password_hash)
+
+		conf = conferences.find_one({ 'conf_id': conf_id.strip(), 'password': password_hash })
 
 		if conf is not None:
 			return conf
+		else:
+			return -1

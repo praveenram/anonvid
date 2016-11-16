@@ -23,7 +23,22 @@ function Conference() {
 			});
 		},
 		join: function (confNum, password) {
-
+			$.ajax('/join', {
+				method: 'POST',
+				data: {
+					confId: confNum,
+					password: hashPassword(password)
+				},
+				success: function (data, status) {
+					data = JSON.parse(data);
+					$("form.join-conference .form-group.error").addClass('hidden');
+					$(".panel.join-conference").addClass("hidden");
+					$(".panel.joining-conference").removeClass("hidden");
+				},
+				error: function (responseText, data) {
+					$("form.join-conference .form-group.error").removeClass('hidden');
+				}
+			})
 		}
 	};
 };
@@ -71,7 +86,33 @@ var validateInputAndShowErrorMessages = function (name, password, passwordConfir
 	}
 
 	return isValid;
-}
+};
+
+var validateJoinInputAndShowErrorMessages = function (confId, password) {
+	var isValid = true;
+
+	if(confId === '') {
+		isValid = false;
+		$('#conferenceNum').closest('.form-group').find('p.help-block.error').removeClass('hidden');
+		$('#conferenceNum').closest('.form-group').addClass('has-error');
+	} else {
+		isValid = isValid && true;
+		$('#conferenceNum').closest('.form-group').find('p.help-block.error').addClass('hidden');
+		$('#conferenceNum').closest('.form-group').removeClass('has-error');
+	}
+
+	if(password === '') {
+		isValid = false;
+		$('#conferencePassword').closest('.form-group').find('p.help-block.error').removeClass('hidden');
+		$('#conferencePassword').closest('.form-group').addClass('has-error');
+	} else {
+		isValid = isValid && true;
+		$('#conferencePassword').closest('.form-group').find('p.help-block.error').addClass('hidden');
+		$('#conferencePassword').closest('.form-group').removeClass('has-error');
+	}
+
+	return isValid;
+};
 
 $(document).ready(function () {
 	var conference = Conference();
@@ -91,5 +132,13 @@ $(document).ready(function () {
 
 	$('form.join-conference').on('submit', function (event, args) {
 		event.preventDefault();
+
+		var confId = $('#conferenceNum').val().trim();
+		var password = $('#conferencePassword').val().trim();
+
+		if(validateJoinInputAndShowErrorMessages(confId, password)) {
+			//call join ajax call
+			conference.join(confId, password);
+		}
 	});
 });
