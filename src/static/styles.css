@@ -50,6 +50,14 @@ html, body {
 	border-radius: 5px;
 }
 
+video#localVideo {
+	position: absolute;
+    right: -1vw;
+    height: 15vh;
+    width: 20vh;
+    bottom: 1vh;
+}
+
 /* Generic styles */
 .row-eq-height {
 	display: -webkit-box;

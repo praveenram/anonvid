@@ -18,6 +18,8 @@
 						</section>
 					</section>
 					<section class="col-lg-6 video-section">
+						<div id="remoteVideos"></div>
+						<video class="local-video" id="localVideo"></video>
 					</section>
 				</div>
 			</div>
@@ -28,5 +30,6 @@
 	<script type="text/javascript">
 		$("nav").addClass('hidden');
 	</script>
+	<script src="https://simplewebrtc.com/latest-v2.js"></script>
 	<script type="text/javascript" src="/static/active_conference.js"></script>
 {% endblock %}
