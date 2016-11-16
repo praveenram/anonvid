@@ -2,6 +2,8 @@
 Anonvid Server Script
 """
 
+import jsonpickle
+
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -21,6 +23,16 @@ def index():
 @app.route("/create", methods=['GET'])
 def create():
 	return render_template("create.html")
+
+@app.route("/create", methods=['POST'])
+def create_post():
+	name = request.form['name']
+	password = request.form['password']
+	confId = db.create_conference(name, password)
+	if confId == -1:
+		return '', 500
+	else:
+		return jsonpickle.encode({ 'confId': confId }), 200
 
 
 @app.route("/conference", methods=['GET', 'POST'])

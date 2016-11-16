@@ -8,6 +8,13 @@ from pymongo import MongoClient
 
 salt = '5d1fa76d7874970190707c55595d32331b113f762447fa49b226e8b471e4145f'
 
+def generate_conf_id():
+	return str(uuid.uuid4())
+
+def generate_password_hash(password):
+	import hashlib, binascii
+	dk = hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), 100000)
+	return binascii.hexlify(dk)
 
 class Database(object):
 	def __init__(self, mongo_host='localhost', mongo_port=27017):
@@ -33,11 +40,3 @@ class Database(object):
 
 		if conf is not None:
 			return conf
-
-	def generate_conf_id():
-		return uuid.uuid4()
-
-	def generate_password_hash(password):
-		import hashlib, binascii
-		dk = hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), 100000)
-		return binascii.hexlify(dk)
