@@ -6,4 +6,5 @@ log
 *.box
 .vagrant
 *.swp
+node_modules
 

@@ -58,6 +58,11 @@ video#localVideo {
     bottom: 1vh;
 }
 
+#remoteVideos > video {
+	display: inline-block;
+	margin: 1%;
+}
+
 /* Generic styles */
 .row-eq-height {
 	display: -webkit-box;
