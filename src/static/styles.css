@@ -2,16 +2,20 @@
 html, body {
 	height: 100vh;
 	overflow-y: auto;
+	font-family: 'Montserrat', sans-serif !important;
 }
 
 .chat-panel.panel {
-	background-color: darkgray;
+	background: transparent;
 	margin: 1vh;
+	border: none;
 }
 
 .chat-panel.panel .panel-heading {
     height: 4vh;
     max-height: 40px;
+    background: transparent;
+    color: whitesmoke;
 }
 
 .chat-panel.panel .panel-body {
@@ -42,6 +46,43 @@ html, body {
 	height: 43vh;
 }
 
+.chat-window .message-feed {
+	margin: 2% 0 1% 0;
+	height: 82%;
+	border: 1px solid black;
+	border-radius: 5px;
+	overflow-y: auto;
+}
+
+.chat-window .chat-input-box {
+	margin: 1% 0 1% 0;
+	height: 10%;
+	border: 1px solid black;
+	border-radius: 5px;
+	background-color: #eee;
+}
+
+.chat-window .chat-input-box input {
+	width: 90%;
+	height: 99%;
+	display: inline-block;
+}
+
+.chat-window .chat-input-box button.send-chat {
+	color: black;
+	background: transparent;
+	width: 9%;
+	text-align: center;
+	height: 100%;
+	display: inline-block;
+	border: none;
+	font-size: 1.5rem;
+}
+
+.chat-window .chat-input-box button.send-chat:hover {
+	opacity: 0.7;
+}
+
 .whiteboard-section canvas {
 	background-color: white;
 	height: 43vh;
@@ -56,11 +97,61 @@ video#localVideo {
     height: 15vh;
     width: 20vh;
     bottom: 1vh;
+    border: 1px solid silver;
+    border-radius: 5px;
 }
 
 #remoteVideos > video {
 	display: inline-block;
 	margin: 1%;
+}
+
+.conf-controls {
+	position: relative;
+	top: 85%;
+	margin: 0 auto;
+	width: 30%;
+}
+
+.conf-controls button {
+	width: 6rem;
+	height: 6rem;
+	border-radius: 50%;
+	border: none;
+	font-size: 2rem;
+	margin: 0.5rem;
+	background: transparent;
+}
+
+.conf-controls button:hover {
+	opacity: 0.7;
+}
+
+.conf-controls button.enable-microphone, .conf-controls button.disable-microphone {
+	color: #fff;
+	border: 1px solid white;
+}
+
+.conf-controls button.disable-video {
+	background: url('/static/video_camera.png');
+    background-repeat: no-repeat;
+    background-size: 3rem;
+    background-position-x: 50%;
+    background-position-y: 50%;
+    border: 1px solid white;
+    position: absolute;
+}
+
+.conf-controls button.end-conf {
+	color: #fff;
+	background-color: #f13;
+}
+
+.conf-controls button.enable-video {
+	position: absolute;
+    font-size: 2.4rem;
+    color: white;
+    border: 1px solid white;
 }
 
 /* Generic styles */

@@ -80,6 +80,18 @@ def conference():
 	resp.set_cookie('username', user)
 	return resp
 
+@app.route("/leave_conference", methods=['DELETE', 'GET'])
+def leave_conference():
+	c_no = request.args.get('c_no')
+	username_cookie = request.cookies.get('username')
+
+	conf = db.get_conference(c_no)
+	if username_cookie is not None and username_cookie != '' and conf is not None:
+		signals.leave_conference(conf['conf_id'], username_cookie)
+
+	resp = make_response(render_template("index.html"))
+	resp.set_cookie('username', None)
+	return resp
 
 if __name__ == "__main__":
 	app.run(debug = True, port = 8000, host = "0.0.0.0")

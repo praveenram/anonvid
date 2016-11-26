@@ -13,6 +13,14 @@
 					<section class="col-lg-6">
 						<section class="row margin-lr-0 chat-section">
 							<div class="col-lg-12 chat-window">
+								<div class="row margin-lr-0 message-feed">
+								</div>
+								<div class="row margin-lr-0 chat-input-box">
+									<input type="text" name="chat-input" placeholder="Enter your message here"></input>
+									<button class="send-chat">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+									</button>
+								</div>
 							</div>
 						</section>
 						<section class="row margin-lr-0 whiteboard-section">
@@ -22,11 +30,32 @@
 					<section class="col-lg-6 video-section">
 						<div id="remoteVideos"></div>
 						<video class="local-video" id="localVideo"></video>
+						<div class="conf-controls">
+							<button class="disable-microphone">
+								<i class="fa fa-microphone-slash" aria-hidden="true"></i>
+							</button>
+							<button class="enable-microphone hidden">
+								<i class="fa fa-microphone" aria-hidden="true"></i>
+							</button>
+							<button class="end-conf">
+								<i class="fa fa-stop" aria-hidden="true"></i>
+							</button>
+							<button class="enable-video hidden">
+								<i class="fa fa-video-camera" aria-hidden="true"></i>
+							</button>
+							<button class="disable-video">
+							</button>
+						</div>
 					</section>
 				</div>
 			</div>
 		</div>
 	</div>
+	<style>
+		body, html {
+			background: #222;
+		}
+	</style>
 {% endblock %}
 {% block scripts %}
 	<script type="text/javascript">

@@ -22,3 +22,11 @@ class Signals(object):
 					user = names.get_full_name()
 			conf[user] = {}
 		return user
+
+	def leave_conference(self, conf_id, user):
+		conf = self.conferences.get(conf_id)
+
+		if user is None or conf is None:
+			return
+		else:
+			conf.pop(user)
