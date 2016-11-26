@@ -147,12 +147,6 @@ $(document).ready(function() {
     };
 
     var sendChatMessageToAll = function(username, msg) {
-        /*
-        sendDirectlyToAll(channelLabel, messageType, payload) - broadcasts a message to all peers in the room via a dataChannel
-            string channelLabel - the label for the dataChannel to send on
-            string messageType - the key for the type of message being sent
-            object payload - an arbitrary value or object to send to peers
-        */
         webrtc.sendToAll("chatReceived", {
             user: username,
             msg: msg
