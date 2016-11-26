@@ -16,7 +16,7 @@
 								<div class="row margin-lr-0 message-feed">
 								</div>
 								<div class="row margin-lr-0 chat-input-box">
-									<input type="text" name="chat-input" placeholder="Enter your message here"></input>
+									<input type="text" name="chat-input" placeholder="Enter your message here" id="chatInput"></input>
 									<button class="send-chat">
 										<i class="fa fa-paper-plane" aria-hidden="true"></i>
 									</button>
@@ -61,6 +61,7 @@
 	<script type="text/javascript">
 		$("nav").addClass('hidden');
 	</script>
-	<script src="https://simplewebrtc.com/latest-v2.js"></script>
+	<!-- Modified version of simplewebrtc -->
+	<script type="text/javascript" src="/static/simplewebrtc.js"></script>
 	<script type="text/javascript" src="/static/active_conference.js"></script>
 {% endblock %}
