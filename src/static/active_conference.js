@@ -14,9 +14,8 @@ $(document).ready(function() {
     };
 
     // Web RTC library and events
-
     var webrtc = new SimpleWebRTC({
-        debug: false,
+        debug: debug,
         //Signaling server
         url: "http://localhost:8888/",
         //Video feed
@@ -36,7 +35,7 @@ $(document).ready(function() {
     });
 
     webrtc.on('readyToCall', function() {
-        if (debug == true) {
+        if (debug === true) {
             console.log("Ready to call");
         }
         webrtc.joinRoom('anonvid-' + confId, function(err, roomDescription) {
@@ -44,7 +43,7 @@ $(document).ready(function() {
                 //TODO: Show error alert - unable to join conference try again later
             }
 
-            if (debug == true) {
+            if (debug === true) {
                 console.log("Join Room");
                 console.log(err);
                 console.log(roomDescription);
@@ -53,21 +52,21 @@ $(document).ready(function() {
     });
 
     webrtc.on('connectionReady', function(sessionId) {
-        if (debug == true) {
+        if (debug === true) {
             console.log("Connection ready");
             console.log(sessionId);
         }
     });
 
     webrtc.on('createdPeer', function(peer) {
-        if (debug == true) {
+        if (debug === true) {
             console.log("Peer created");
             console.log(peer);
         }
     });
 
     webrtc.on('leftRoom', function(roomName) {
-        if (debug == true) {
+        if (debug === true) {
             console.log("leftRoom");
             console.log(roomName);
         }
@@ -76,7 +75,7 @@ $(document).ready(function() {
     webrtc.on('videoAdded', function(videoEl, peer) {
         remoteVideoCount++;
         resizeRemoteVideos();
-        if (debug == true) {
+        if (debug === true) {
             console.log("Video added");
             console.log(videoEl);
             console.log(peer);
@@ -86,7 +85,7 @@ $(document).ready(function() {
     webrtc.on('videoRemoved', function(videoEl, peer) {
         remoteVideoCount--;
         resizeRemoteVideos();
-        if (debug == true) {
+        if (debug === true) {
             console.log("Video removed");
             console.log(videoEl);
             console.log(peer);
@@ -99,6 +98,7 @@ $(document).ready(function() {
         $(".disable-video").addClass("hidden");
         $("video#localVideo").addClass("hidden");
         // Cut video stream
+        webrtc.pauseVideo();
     });
 
     $(".enable-video").on('click', function() {
@@ -106,62 +106,80 @@ $(document).ready(function() {
         $(".disable-video").removeClass("hidden");
         $("video#localVideo").removeClass("hidden");
         // Re-enable video stream
+        webrtc.resumeVideo();
     });
 
     $(".end-conf").on('click', function() {
         // Leave conference
-        // Ajax call to server and singnaling server to leave conference
-        // Redirect to index page
+        // Call to server and singnaling server to leave conference
+        // Redirects to index page
+        webrtc.leaveRoom();
+        webrtc.disconnect();
+        $("#leaveConferenceForm").submit();
     });
 
     $(".enable-microphone").on('click', function() {
         $(".enable-microphone").addClass("hidden");
         $(".disable-microphone").removeClass("hidden");
         //Unmute local audio
+        webrtc.unmute();
     });
 
     $(".disable-microphone").on('click', function() {
         $(".enable-microphone").removeClass("hidden");
         $(".disable-microphone").addClass("hidden");
         //Mute local user audio
+        webrtc.mute();
     });
 
     //Chat functionality
     var showMessageOnScreen = function(username, msg) {
-        // Escape characters of HTML / JS from this.
-        console.log(msg);
-        var escapeCharacters = ["&", "<", ">", '"', "'", "/"];
-        var escapeMap = {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#x27;",
-            "/": "&#x2F;"
-        };
-        for(var i = 0; i < escapeCharacters.length; i++) {
-            msg = msg.replace(escapeCharacters[i], escapeMap[escapeCharacters[i]]);
+        if(msg !== undefined || msg !== null || msg !== "") {
+            // Escape characters of HTML / JS from this.
+            var escapeCharacters = ["&", "<", ">", '"', "'", "/"];
+            var escapeMap = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#x27;",
+                "/": "&#x2F;"
+            };
+            for(var i = 0; i < escapeCharacters.length; i++) {
+                msg = msg.replace(escapeCharacters[i], escapeMap[escapeCharacters[i]]);
+            }
+            $(".message-feed").append("<p>" + username + ": " + msg + "</p>");
         }
-        console.log(msg);
-        $(".message-feed").append("<p>" + username + ": " + msg + "</p>");
     };
 
     var sendChatMessageToAll = function(username, msg) {
-        webrtc.sendToAll("chatReceived", {
-            user: username,
-            msg: msg
-        });
+        if(msg !== undefined || msg !== null || msg !== "") {
+            webrtc.sendToAll("chatReceived", {
+                user: username,
+                msg: msg
+            });
+        }
     };
 
     webrtc.on('chatReceived', function(payload) {
         showMessageOnScreen(payload['user'], payload['msg']);
     });
 
-    $("button.send-chat").on('click', function() {
+    var sendChatHandler = function() {
         var msg = $("#chatInput").val().trim();
         showMessageOnScreen(username, msg);
         sendChatMessageToAll(username, msg);
-    });
+        $("#chatInput").val(''); //Clear the value for next chat message
+    };
+
+    $("button.send-chat").on('click', sendChatHandler);
 
     //Add event to check if enter key is pressed on the #chatInput
+    $("#chatInput").keyup(function (event) {
+        var code = event.which;
+        if(code === 13) { //Enter key is pressed
+            event.preventDefault();
+            sendChatHandler();
+        }
+    });
 });

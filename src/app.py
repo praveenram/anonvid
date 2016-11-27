@@ -80,9 +80,9 @@ def conference():
 	resp.set_cookie('username', user)
 	return resp
 
-@app.route("/leave_conference", methods=['DELETE', 'GET'])
+@app.route("/leave_conference", methods=['POST'])
 def leave_conference():
-	c_no = request.args.get('c_no')
+	c_no = request.form['c_no']
 	username_cookie = request.cookies.get('username')
 
 	conf = db.get_conference(c_no)
@@ -90,7 +90,8 @@ def leave_conference():
 		signals.leave_conference(conf['conf_id'], username_cookie)
 
 	resp = make_response(render_template("index.html"))
-	resp.set_cookie('username', None)
+	resp.set_cookie('username', '', expires=0)
+	resp.set_cookie('conf_id', '', expires=0)
 	return resp
 
 if __name__ == "__main__":
