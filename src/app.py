@@ -83,13 +83,16 @@ def conference():
 @app.route("/leave_conference", methods=['POST'])
 def leave_conference():
 	c_no = request.form['c_no']
-	username_cookie = request.cookies.get('username')
-
 	conf = db.get_conference(c_no)
-	if username_cookie is not None and username_cookie != '' and conf is not None:
-		signals.leave_conference(conf['conf_id'], username_cookie)
 
-	resp = make_response(render_template("index.html"))
+	if conf is None or request.cookies.get('conf_id') != generate_cookie(conf):
+		resp = redirect('/')
+	else:
+		username_cookie = request.cookies.get('username')
+		if username_cookie is not None and username_cookie != '' and conf is not None:
+			signals.leave_conference(conf['conf_id'], username_cookie)
+		resp = make_response(render_template("index.html"))
+
 	resp.set_cookie('username', '', expires=0)
 	resp.set_cookie('conf_id', '', expires=0)
 	return resp
