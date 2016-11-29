@@ -5,6 +5,7 @@ Anonvid Server Script
 import jsonpickle
 import hashlib
 import binascii
+import os
 
 from flask import Flask
 from flask import render_template
@@ -15,8 +16,18 @@ from flask import redirect
 from database import Database
 from signals import Signals
 
+productionMode = False
+if(os.environ['DEPLOY_ENV'] == 'production'):
+	productionMode = True
+
 app = Flask(__name__)
-db = Database()
+
+if(productionMode):
+	dbUri = os.environ['MONGODB_URI']
+	db = Database(mongo_host=dbUri)
+else:
+	db = Database()
+
 signals = Signals()
 
 salt = '3e48ad8d29e9b02753c62ea47f365683fd65d861e8dd257b9d0ad91c67b47e12'
@@ -76,7 +87,12 @@ def conference():
 	else:
 		user = signals.register_conference(conf['conf_id'])
 
-	resp = make_response(render_template("conference.html", name = conf['name'], conf_id = conf['conf_id'], user = user))
+	if productionMode:
+		signalmaster_url = "http://anonvid-signalmaster.herokuapp.com/"
+	else:
+		signalmaster_url = "http://localhost:8888/"
+
+	resp = make_response(render_template("conference.html", name = conf['name'], conf_id = conf['conf_id'], user = user, signalmaster_url = signalmaster_url))
 	resp.set_cookie('username', user)
 	return resp
 
@@ -98,4 +114,10 @@ def leave_conference():
 	return resp
 
 if __name__ == "__main__":
-	app.run(debug = True, port = 8000, host = "0.0.0.0")
+	if(productionMode):
+		port = int(os.environ['PORT'])
+		debug = False
+	else:
+		port = 8000
+		debug = True
+	app.run(debug = debug, port = port, host = "0.0.0.0")

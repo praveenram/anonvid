@@ -17,8 +17,14 @@ def generate_password_hash(password):
 
 class Database(object):
 	def __init__(self, mongo_host='localhost', mongo_port=27017):
-		self._db_client = MongoClient(mongo_host, mongo_port)
-		self._db = self._db_client.anonvid_prod
+		if(mongo_host.startswith("mongodb")):
+			self._db_client = MongoClient(host=mongo_host)
+			parts = mongo_host.split('/')
+			db_name = parts[len(parts) - 1]
+			self._db = self._db_client[db_name]
+		else:
+			self._db_client = MongoClient(mongo_host, mongo_port)
+			self._db = self._db_client.anonvid_prod
 
 	def create_conference(self, name, password):
 		conf_id = generate_conf_id()

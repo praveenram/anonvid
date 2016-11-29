@@ -17,7 +17,7 @@ $(document).ready(function() {
     var webrtc = new SimpleWebRTC({
         debug: debug,
         //Signaling server
-        url: "http://localhost:8888/",
+        url: $("#signalmaster_url").val().trim(),
         //Video feed
         localVideoEl: 'localVideo',
         remoteVideosEl: 'remoteVideos',
