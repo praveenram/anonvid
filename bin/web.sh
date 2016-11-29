@@ -1,4 +1,3 @@
-#!/bin/bash
 
 if [ "$WEB_SERVER" == "true" ]; then
   python src/app.py
