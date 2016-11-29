@@ -30,7 +30,7 @@ $(document).ready(function() {
         peerVolumeWhenSpeaking: 0.01,
         media: {
             video: true,
-            audio: false
+            audio: true
         }
     });
 
@@ -41,6 +41,7 @@ $(document).ready(function() {
         webrtc.joinRoom('anonvid-' + confId, function(err, roomDescription) {
             if (err) {
                 //TODO: Show error alert - unable to join conference try again later
+                alert("Error joining the conference. Try after some time.");
             }
 
             if (debug === true) {
