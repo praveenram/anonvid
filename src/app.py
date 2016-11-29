@@ -88,7 +88,7 @@ def conference():
 		user = signals.register_conference(conf['conf_id'])
 
 	if productionMode:
-		signalmaster_url = "https://anonvid-signalmaster.herokuapp.com/"
+		signalmaster_url = os.environ['SIGNALMASTER_URL']
 	else:
 		signalmaster_url = "http://localhost:8888/"
 
