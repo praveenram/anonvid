@@ -1,8 +1,22 @@
 var debug = false;
+var canvas;
 
 $(document).ready(function() {
     var confId = $("#confId").val();
     var username = $("#username").val();
+
+    canvas = window._canvas = new fabric.Canvas('whiteboard');
+    canvas.backgroundColor = '#ffffff';
+    canvas.setDimensions({
+        width: '100%',
+        height: '43vh'
+    }, {
+        cssOnly: true
+    });
+    canvas.isDrawingMode= 1;
+    canvas.freeDrawingBrush.color = "black";
+    canvas.freeDrawingBrush.width = 2;
+    canvas.renderAll();
 
     var remoteVideoCount = 0;
     var remoteVideos = {};
@@ -15,16 +29,15 @@ $(document).ready(function() {
         var height;
         var width;
         //each video has margin of 1%
-        if(remoteVideoCount == 0) {
+        if (remoteVideoCount == 0) {
             //TODO: Show no peers image / text
-        } else if(remoteVideoCount == 1) {
+        } else if (remoteVideoCount == 1) {
             width = 98;
             height = 98;
-        } else if(remoteVideoCount == 2) {
+        } else if (remoteVideoCount == 2) {
             width = (100 - 2 * 2) / 2;
             height = 98;
-        }
-        else {
+        } else {
             //grid layout
             var side = Math.ceil(remoteVideoCount / 2);
             width = (100 - side * 2) / side;
@@ -156,7 +169,7 @@ $(document).ready(function() {
 
     //Chat functionality
     var showMessageOnScreen = function(username, msg) {
-        if(msg !== undefined || msg !== null || msg !== "") {
+        if (msg !== undefined || msg !== null || msg !== "") {
             // Escape characters of HTML / JS from this.
             var escapeCharacters = ["&", "<", ">", '"', "'", "/"];
             var escapeMap = {
@@ -167,7 +180,7 @@ $(document).ready(function() {
                 "'": "&#x27;",
                 "/": "&#x2F;"
             };
-            for(var i = 0; i < escapeCharacters.length; i++) {
+            for (var i = 0; i < escapeCharacters.length; i++) {
                 msg = msg.replace(escapeCharacters[i], escapeMap[escapeCharacters[i]]);
             }
             $(".message-feed").append("<p>" + username + ": " + msg + "</p>");
@@ -175,7 +188,7 @@ $(document).ready(function() {
     };
 
     var sendChatMessageToAll = function(username, msg) {
-        if(msg !== undefined || msg !== null || msg !== "") {
+        if (msg !== undefined || msg !== null || msg !== "") {
             webrtc.sendToAll("chatReceived", {
                 user: username,
                 msg: msg
@@ -197,11 +210,36 @@ $(document).ready(function() {
     $("button.send-chat").on('click', sendChatHandler);
 
     //Add event to check if enter key is pressed on the #chatInput
-    $("#chatInput").keyup(function (event) {
+    $("#chatInput").keyup(function(event) {
         var code = event.which;
-        if(code === 13) { //Enter key is pressed
+        if (code === 13) { //Enter key is pressed
             event.preventDefault();
             sendChatHandler();
         }
+    });
+
+    //Whiteboard
+    var sendCanvasObject = function(klass) {
+        if (klass !== undefined || klass !== null || klass !== "") {
+            webrtc.sendToAll("canvasUpdated", {
+                klass: klass
+            });
+        }
+    };
+
+    var updateCanvas = function (obj) {
+        if(!!obj)
+            canvas.loadFromJSON(obj, canvas.renderAll.bind(canvas), function(o, object) {
+                fabric.log(o, object);
+            });
+    };
+
+    canvas.on('path:created', function (evt) {
+        var klass = canvas.toJSON();
+        sendCanvasObject(klass);
+    });
+
+    webrtc.on('canvasUpdated', function(payload) {
+        updateCanvas(payload['klass']);
     });
 });

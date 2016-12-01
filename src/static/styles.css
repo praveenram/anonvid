@@ -84,7 +84,6 @@ html, body {
 }
 
 .whiteboard-section canvas {
-	background-color: white;
 	height: 43vh;
 	width: 100%;
 	border: 1px solid white;
