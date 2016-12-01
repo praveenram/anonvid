@@ -101,14 +101,18 @@ video#localVideo {
     border-radius: 5px;
 }
 
+#remoteVideos {
+	height: 80vh;
+}
+
 #remoteVideos > video {
 	display: inline-block;
 	margin: 1%;
 }
 
 .conf-controls {
-	position: relative;
-	top: 85%;
+	height: 8vh;
+	margin-top: 2vh;
 	margin: 0 auto;
 	width: 30%;
 }

@@ -5,12 +5,33 @@ $(document).ready(function() {
     var username = $("#username").val();
 
     var remoteVideoCount = 0;
+    var remoteVideos = {};
 
     var resizeRemoteVideos = function() {
         //TODO:
         // calculate height and width depending on layout
         // layout depends on the number of videos available to display
         // grid type layout
+        var height;
+        var width;
+        //each video has margin of 1%
+        if(remoteVideoCount == 0) {
+            //TODO: Show no peers image / text
+        } else if(remoteVideoCount == 1) {
+            width = 98;
+            height = 98;
+        } else if(remoteVideoCount == 2) {
+            width = (100 - 2 * 2) / 2;
+            height = 98;
+        }
+        else {
+            //grid layout
+            var side = Math.ceil(remoteVideoCount / 2);
+            width = (100 - side * 2) / side;
+            height = (100 - side * 2) / side;
+        }
+        $("#remoteVideos video").css('height', height + '%');
+        $("#remoteVideos video").css('width', width + '%');
     };
 
     // Web RTC library and events
