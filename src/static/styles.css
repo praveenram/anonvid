@@ -90,7 +90,7 @@ html, body {
 	border-radius: 5px;
 }
 
-video#localVideo {
+div.local-video {
 	position: absolute;
     right: -1vw;
     height: 15vh;
@@ -98,6 +98,13 @@ video#localVideo {
     bottom: 1vh;
     border: 1px solid silver;
     border-radius: 5px;
+    background: url(/static/person.png) 50% 50% no-repeat;
+    background-size: contain;
+}
+
+video#localVideo {
+	height: 15vh;
+    width: 20vh;
 }
 
 #remoteVideos {

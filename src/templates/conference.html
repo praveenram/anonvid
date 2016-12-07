@@ -17,7 +17,7 @@
 								<div class="row margin-lr-0 message-feed">
 								</div>
 								<div class="row margin-lr-0 chat-input-box">
-									<input type="text" name="chat-input" placeholder="Enter your message here" id="chatInput"></input>
+									<input type="text" name="chat-input" placeholder="Enter your message here" id="chatInput" />
 									<button class="send-chat">
 										<i class="fa fa-paper-plane" aria-hidden="true"></i>
 									</button>
@@ -30,7 +30,9 @@
 					</section>
 					<section class="col-lg-6 video-section">
 						<div id="remoteVideos"></div>
-						<video class="local-video" id="localVideo"></video>
+						<div class="local-video">
+							<video id="localVideo"></video>
+						</div>
 						<div class="conf-controls">
 							<button class="disable-microphone">
 								<i class="fa fa-microphone-slash" aria-hidden="true"></i>
