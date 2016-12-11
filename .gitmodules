@@ -1,3 +1,0 @@
-[submodule "signalmaster"]
-	path = src/signalmaster
-	url = git@github.com:andyet/signalmaster.git
