@@ -8,8 +8,12 @@ External Dependencies
 ---------------------
 
 MongoDB - Any version of MongoDB that PyMongo can connect to. Used only to store Conference ID and Hash of password.
+
 Signaling server - Node.js based socket.io server offered by &yet: https://github.com/andyet/signalmaster
+
 SimpleWebRTC Javascript - Base library by &yet. Slightly modified version available at: https://github.com/praveenram/SimpleWebRTC
+
+FabricJS - For whiteboard canvas and their handy canvas toJSON function.
 
 For full documentation on SimpleWebRTC check out: https://simplewebrtc.com/
 
@@ -26,6 +30,9 @@ Environment Variables
 For production set the following environment variables,
 
 DEPLOY_ENV=production
+
 MONGODB_URI=mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]
+
 SIGNALMASTER_URL=https://signalmaster_server:port/
-PORT=<port to bind python server to>
+
+PORT=[port to bind python server to]
