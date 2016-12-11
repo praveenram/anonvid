@@ -22,10 +22,6 @@ $(document).ready(function() {
     var remoteVideos = {};
 
     var resizeRemoteVideos = function() {
-        //TODO:
-        // calculate height and width depending on layout
-        // layout depends on the number of videos available to display
-        // grid type layout
         var height;
         var width;
         //each video has margin of 1%
