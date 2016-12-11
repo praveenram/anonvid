@@ -30,9 +30,8 @@ else:
 
 signals = Signals()
 
-salt = '3e48ad8d29e9b02753c62ea47f365683fd65d861e8dd257b9d0ad91c67b47e12'
-
 def generate_cookie(conf):
+	salt = os.environ['COOKIE_SALT']
 	dk = hashlib.pbkdf2_hmac('sha256', conf['conf_id'].encode(), salt.encode(), 100000)
 	return str(binascii.hexlify(dk))
 

@@ -1,4 +1,5 @@
 """
+Anonvid Conference to Username Map
 """
 import names
 
