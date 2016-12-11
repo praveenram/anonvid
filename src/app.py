@@ -17,7 +17,7 @@ from database import Database
 from signals import Signals
 
 productionMode = False
-if(os.environ['DEPLOY_ENV'] == 'production'):
+if(os.environ.get('DEPLOY_ENV') == 'production'):
 	productionMode = True
 
 app = Flask(__name__)
