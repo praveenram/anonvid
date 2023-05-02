@@ -1,5 +1,5 @@
 jsonpickle==1.2
-flask==1.1.1
+flask==2.2.5
 uuid==1.30
 pymongo==3.9.0
 names==0.3.0
